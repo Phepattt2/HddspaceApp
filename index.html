@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>HHD APP</title>
+  </head>
+  <body>
+    <h1></h1>
+      <input id = 'threshold'/>
+      <button id = 'submitbutton'>Submit threshold</button>
+      <h1 id = "testtext"> </h1>
+      <div  id='test1'></div>
+      <h2 id ='totalHddmem'></h2>
+      <h2 id ='usedHddmem'></h2>  
+      <h2 id ='freeHddmem'></h2>
+      <h2 id ='usedPercent'></h2>
+      <h1></h1>
+      <h1 id = 'result'></h1>
+
+
+      
+  </body>
+  <script type = 'module' src = './renderer.js'> </script>
+
+</html>
