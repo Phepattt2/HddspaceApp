@@ -16,7 +16,6 @@ for (let i = 0; i < a.length; i++) {
     }
     else{
         console.log('Invalid character')
-        result = false
     }
 }
 console.log(result)
