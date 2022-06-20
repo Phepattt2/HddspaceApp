@@ -62,7 +62,7 @@ if (os.platform == 'linux') {
       for (let i = 0; i < data.length; i++) {
         
         if (data[i].mount.includes('/media') == true) {
-          console.log(data[i].mount  , 'used :',data[i].used*100/data[i].size)
+          console.log(data[i].mount  , 'use :',(data[i].use).toString() , '% from :',parseFloat((data[i].size)/10**9).toFixed(2),'GB')
           totalHddmem += parseFloat((data[i].size))
           usedHddmem += parseFloat((data[i].used))
           sends.push(data[i].fs, data[i].size, data[i].used)
@@ -79,10 +79,10 @@ if (os.platform == 'linux') {
     if ( usedPercent != 'NaN'){
         if (totalHddmem * threshold <= usedHddmem) {
           console.log('\x1b[41m%s\x1b[0m','Please Change HDD : ')
-          console.log('current capacity is : ',usedPercent ,'% threshold is : ',threshold*100,' %')
+          console.log('current capacity is : ',usedPercent ,'% threshold is : ',(threshold*100).toString())
         }
         else { console.log('\x1b[42m%s\x1b[0m','Under threshold : ')
-        console.log('current capacity is : ',usedPercent ,'% threshold is : ',threshold*100,' %')
+        console.log('current capacity is : ',usedPercent ,'% threshold is : ',(threshold*100).toString())
         }
     }else{
       clearInterval(interval)
