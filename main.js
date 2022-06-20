@@ -1,3 +1,4 @@
+const {os} = require('os') 
 const {
     app,
     BrowserWindow,
@@ -17,13 +18,18 @@ const {
       },
     })
     mainWindow.loadFile('index.html')
-  
   }
   
   app.whenReady().then(() => {
     createWindow()
-    
-    app.on('activate', () => {
-      if (BrowserWindow.getAllWindows().length === 0) createWindow()
-    })
-  })
+    if(process.platform == 'linux'){
+      app.quit()
+    }
+    console.log(process.platform)
+    app.on('activate', ()=>{
+      if (BrowserWindow.getAllWindows().length === 0) {createWindow()
+      }   
+    }
+    )
+  }
+  )

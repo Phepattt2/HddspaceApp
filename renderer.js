@@ -23,7 +23,7 @@ async function Hddmem(thresolddata) {
   // console.log(data)
   for (let i = 0; i < data.length; i++) {
     // console.log(data[i].fs)
-    if (data[i].fs.includes('/media') == true) {
+    if (data[i].mount.includes('/media') == true) {
       totalHddmem += parseFloat((data[i].size))
       usedHddmem += parseFloat((data[i].used))
       sends.push(data[i].fs, data[i].size, data[i].used)
