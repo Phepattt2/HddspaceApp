@@ -22,7 +22,7 @@ const {
   
   app.whenReady().then(() => {
     createWindow()
-    if(process.platform == 'linux'){
+    if(process.platform != 'linux'){
       app.quit()
     }
     console.log(process.platform)
