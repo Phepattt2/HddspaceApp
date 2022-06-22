@@ -2,14 +2,13 @@ let commandArray = []
 let threshold = ''
 let temp = 0
 let result = true
-let interval 
 const si = require('systeminformation');
 const os = require('os')
-
+const { exec } = require("child_process");
 
 console.log(os.platform())
 if (os.platform == 'linux') {
-  for (let i = 2 ; i <process.argv.length ; i++ ){
+  for (let i = 0 ; i <process.argv.length ; i++ ){
       commandArray.push((process.argv[i]).replace(/\s/g, ''))
   }
 
@@ -78,12 +77,26 @@ if (os.platform == 'linux') {
       sends.push(totalHddmem, usedHddmem, freeHddmem, usedPercent)
 
     if ( usedPercent != 'NaN'){
+      // less than threshold
         if (totalHddmem * threshold <= usedHddmem) {
           console.log('\x1b[41m%s\x1b[0m','Please Change HDD : ')
           console.log('current capacity is : ',usedPercent ,'% threshold is : ',(threshold*100).toString())
         }
+        // more than threshold
         else { console.log('\x1b[42m%s\x1b[0m','Under threshold : ')
         console.log('current capacity is : ',usedPercent ,'% threshold is : ',(threshold*100).toString())
+        exec("./hddscr.sh", (error, stdout, stderr) => {
+          if (error) {
+              console.log(`error: ${error.message}`);
+              return;
+          }
+          if (stderr) {
+              console.log(`stderr: ${stderr}`);
+              return;
+          }
+          console.log(`stdout: ${stdout}`);
+      });
+      
         }
     }else{
       // clearInterval(interval)
@@ -93,3 +106,4 @@ if (os.platform == 'linux') {
 }else{  
   console.log('\x1b[41m%s\x1b[0m','only work in Linux os')
 }
+console.log(process.argv)

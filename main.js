@@ -1,35 +1,68 @@
-const {os} = require('os') 
 const {
     app,
     BrowserWindow,
-    ipcMain
+    ipcMain,
   } = require("electron");
-  const si = require('systeminformation');
-  const path = require('path');
-  
-  const createWindow = () => {
-    const mainWindow = new BrowserWindow({
-      width: 800,
-      height: 600,
-      webPreferences: {
-        nodeIntegration: true,
-        contextIsolation: false,
-        enableRemoteModule: true,
-      },
-    })
-    mainWindow.loadFile('index.html')
-  }
-  
+  const ipc = ipcMain
+  var thresholdArg = ''
+  var commandArray = []
   app.whenReady().then(() => {
-    createWindow()
     if(process.platform != 'linux'){
       app.quit()
     }
-    console.log(process.platform)
-    app.on('activate', ()=>{
-      if (BrowserWindow.getAllWindows().length === 0) {createWindow()
-      }   
+    else{
+      const mainWindow = new BrowserWindow({
+        width: 800,
+        height: 700,
+        resizable : false,backgroundColor: '#F5F5F5',
+        webPreferences: {
+          nodeIntegration: true,
+          contextIsolation: false,
+          enableRemoteModule: true,
+        },
+      })
+      mainWindow.loadFile('index.html').then(() => {
+        if(thresholdArg==''){}
+        else{
+        mainWindow.webContents.send('th',thresholdArg)}
+      })
     }
-    )
   }
   )
+function getArgThreshold(){
+  console.log(process.argv)
+  let charcode
+  let result 
+  let count = 0
+  for (let i = 0 ; i <process.argv.length ; i++ ){
+      commandArray.push((process.argv[i]).replace(/\s/g, ''))
+  }      
+  for (let i = 0 ; i < commandArray.length ; i++ ){
+      if (commandArray[i].includes('threshold')){
+          temp = commandArray[i].indexOf('=')
+          for (let j = temp+1 ; j < commandArray[i].length ; j++){
+            charcode = commandArray[i].charCodeAt(j)
+            charcode = charcode.toString()
+            if (commandArray[i][j].includes('.')){
+              count++
+            }
+            if (charcode.includes('46')||charcode.includes('48')||charcode.includes('49')
+            ||charcode.includes('50')||charcode.includes('51')||charcode.includes('52')
+            ||charcode.includes('53')||charcode.includes('54')||charcode.includes('55')
+            ||charcode.includes('56')||charcode.includes('57')){}
+            else{
+              result = false
+              break
+            }
+            thresholdArg += commandArray[i][j]
+          }
+          break
+      }
+      console.log(thresholdArg)
+  }
+  if (count< 2 && result==true)
+  return thresholdArg
+}
+ipcMain.on('fromCommandLineQuitApp',() =>{app.quit()})
+
+getArgThreshold()
